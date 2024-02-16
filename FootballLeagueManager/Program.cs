@@ -1,3 +1,4 @@
+using FootballLeagueManager.Configuration.Dependencies;
 using FootballLeagueManager.Configuration.Secrets;
 using FootballLeagueManager.Consts;
 using FootballLeagueManager.Data;
@@ -18,6 +19,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Dependency registration according to convention
+builder.Services.RegisterDependenciesByConvention();
 
 var app = builder.Build();
 

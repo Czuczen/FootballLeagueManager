@@ -1,9 +1,8 @@
-﻿namespace FootballLeagueManager.Models.Entities.Relations
-{
-    public class FavoriteTeam : Entity<int>
-    {
-        public int UserId { get; set; }
+﻿namespace FootballLeagueManager.Models.Entities.Relations;
 
-        public int TeamId { get; set; }
-    }
+public class FavoriteTeam : Entity<int>
+{
+    public int UserId { get; set; }
+
+    public int TeamId { get; set; }
 }

@@ -1,9 +1,8 @@
-namespace FootballLeagueManager.Models.ViewModels
-{
-    public class ErrorViewModel
-    {
-        public string? RequestId { get; set; }
+namespace FootballLeagueManager.Models.ViewModels;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+public class ErrorViewModel
+{
+    public string? RequestId { get; set; }
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

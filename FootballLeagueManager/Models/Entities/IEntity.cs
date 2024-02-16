@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FootballLeagueManager.Models.Entities
+namespace FootballLeagueManager.Models.Entities;
+
+public interface IEntity<TKey>
 {
-    public interface IEntity<TKey>
-    {
-        [Key]
-        public TKey Id { get; set; }
-    }
+    [Key]
+    public TKey Id { get; set; }
 }
