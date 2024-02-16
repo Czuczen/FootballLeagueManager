@@ -1,4 +1,4 @@
-using FootballLeagueManager.Models;
+using FootballLeagueManager.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

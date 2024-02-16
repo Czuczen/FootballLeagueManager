@@ -1,5 +1,4 @@
-﻿
-namespace FootballLeagueManager.Models.AppManagement;
+﻿namespace FootballLeagueManager.Models.ViewModels.AppManagement;
 
 public class LogsViewModel
 {

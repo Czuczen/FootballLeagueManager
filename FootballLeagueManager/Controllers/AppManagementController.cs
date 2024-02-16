@@ -1,7 +1,7 @@
 ﻿using FootballLeagueManager.Configuration.Secrets;
 using FootballLeagueManager.Consts;
 using FootballLeagueManager.Logging;
-using FootballLeagueManager.Models.AppManagement;
+using FootballLeagueManager.Models.ViewModels.AppManagement;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 

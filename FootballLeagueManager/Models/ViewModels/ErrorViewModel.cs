@@ -1,4 +1,4 @@
-namespace FootballLeagueManager.Models
+namespace FootballLeagueManager.Models.ViewModels
 {
     public class ErrorViewModel
     {
