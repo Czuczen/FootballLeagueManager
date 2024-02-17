@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootballLeagueManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240216134413_Initial")]
+    [Migration("20240217134251_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -37,10 +37,6 @@ namespace FootballLeagueManager.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Season")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Leagues");
@@ -49,20 +45,17 @@ namespace FootballLeagueManager.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Aa",
-                            Season = "Aa"
+                            Name = "Aa"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Bb",
-                            Season = "Bb"
+                            Name = "Bb"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Cc",
-                            Season = "Cc"
+                            Name = "Cc"
                         });
                 });
 
@@ -74,24 +67,28 @@ namespace FootballLeagueManager.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AwayTeamGoals")
+                        .HasColumnType("int");
+
                     b.Property<int>("AwayTeamId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HomeTeamId")
+                    b.Property<int>("HomeTeamGoals")
                         .HasColumnType("int");
 
-                    b.Property<int>("LeagueId")
+                    b.Property<int>("HomeTeamId")
                         .HasColumnType("int");
 
                     b.Property<int>("Queue")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SeasonId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("LeagueId");
+                    b.HasKey("Id");
 
                     b.ToTable("Matches");
 
@@ -99,29 +96,87 @@ namespace FootballLeagueManager.Data.Migrations
                         new
                         {
                             Id = 1,
+                            AwayTeamGoals = 2,
                             AwayTeamId = 2,
                             Date = new DateTime(2023, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HomeTeamGoals = 1,
                             HomeTeamId = 1,
-                            LeagueId = 1,
-                            Queue = 1
+                            Queue = 1,
+                            SeasonId = 1
                         },
                         new
                         {
                             Id = 2,
+                            AwayTeamGoals = 1,
                             AwayTeamId = 3,
                             Date = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HomeTeamGoals = 3,
                             HomeTeamId = 2,
-                            LeagueId = 2,
-                            Queue = 1
+                            Queue = 1,
+                            SeasonId = 2
                         },
                         new
                         {
                             Id = 3,
+                            AwayTeamGoals = 3,
                             AwayTeamId = 3,
                             Date = new DateTime(2023, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HomeTeamGoals = 1,
                             HomeTeamId = 1,
-                            LeagueId = 3,
-                            Queue = 1
+                            Queue = 2,
+                            SeasonId = 3
+                        });
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Season", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LeagueId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Seasons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EndDate = new DateTime(2023, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LeagueId = 1,
+                            Name = "",
+                            StartDate = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EndDate = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LeagueId = 1,
+                            Name = "",
+                            StartDate = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EndDate = new DateTime(2023, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LeagueId = 1,
+                            Name = "",
+                            StartDate = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -137,16 +192,11 @@ namespace FootballLeagueManager.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LeagueId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LeagueId");
 
                     b.ToTable("Teams");
 
@@ -155,22 +205,88 @@ namespace FootballLeagueManager.Data.Migrations
                         {
                             Id = 1,
                             Country = "Aa",
-                            LeagueId = 1,
                             Name = "Aa"
                         },
                         new
                         {
                             Id = 2,
                             Country = "Bb",
-                            LeagueId = 2,
                             Name = "Bb"
                         },
                         new
                         {
                             Id = 3,
                             Country = "Cc",
-                            LeagueId = 3,
                             Name = "Cc"
+                        });
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.TeamSeason", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Draws")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Losses")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MatchesPlayed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TeamSeasons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Draws = 1,
+                            Losses = 3,
+                            MatchesPlayed = 9,
+                            Points = 20,
+                            SeasonId = 1,
+                            TeamId = 1,
+                            Wins = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Draws = 1,
+                            Losses = 3,
+                            MatchesPlayed = 10,
+                            Points = 45,
+                            SeasonId = 1,
+                            TeamId = 1,
+                            Wins = 6
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Draws = 2,
+                            Losses = 2,
+                            MatchesPlayed = 10,
+                            Points = 5,
+                            SeasonId = 1,
+                            TeamId = 1,
+                            Wins = 6
                         });
                 });
 
@@ -395,24 +511,6 @@ namespace FootballLeagueManager.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Match", b =>
-                {
-                    b.HasOne("FootballLeagueManager.Models.Entities.Main.League", null)
-                        .WithMany("Matches")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Team", b =>
-                {
-                    b.HasOne("FootballLeagueManager.Models.Entities.Main.League", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -462,13 +560,6 @@ namespace FootballLeagueManager.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.League", b =>
-                {
-                    b.Navigation("Matches");
-
-                    b.Navigation("Teams");
                 });
 #pragma warning restore 612, 618
         }

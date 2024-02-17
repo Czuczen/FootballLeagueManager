@@ -13,22 +13,19 @@ public class TeamDataSeeder : ISeeder
         {
             Id = 1,
             Name = "Aa",
-            Country = "Aa",
-            LeagueId = 1
+            Country = "Aa"
         },
         new Team
         {
             Id = 2,
             Name = "Bb",
-            Country = "Bb",
-            LeagueId = 2
+            Country = "Bb"
         },
         new Team
         {
             Id = 3,
             Name = "Cc",
-            Country = "Cc",
-            LeagueId = 3
+            Country = "Cc"
         }
     };
 

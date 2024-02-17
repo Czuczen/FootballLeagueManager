@@ -1,4 +1,6 @@
-﻿namespace FootballLeagueManager.Models.Entities.Main;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FootballLeagueManager.Models.Entities.Main;
 
 public class Match : Entity<int>
 {
@@ -15,6 +17,4 @@ public class Match : Entity<int>
     public int AwayTeamId { get; set; }
 
     public int SeasonId { get; set; }
-
-    public int LeagueId { get; set; }
 }

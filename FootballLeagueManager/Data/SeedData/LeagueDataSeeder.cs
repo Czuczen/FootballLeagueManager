@@ -12,20 +12,17 @@ public class LeagueDataSeeder : ISeeder
         new League 
         { 
             Id = 1,
-            Name = "Aa",
-            Season = "Aa"
+            Name = "Aa"
         },
         new League
         {
             Id = 2,
-            Name = "Bb",
-            Season = "Bb"
+            Name = "Bb"
         },
         new League
         {
             Id = 3,
-            Name = "Cc",
-            Season = "Cc"
+            Name = "Cc"
         }
     };
 

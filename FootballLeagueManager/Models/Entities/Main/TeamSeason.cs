@@ -1,6 +1,6 @@
 ﻿namespace FootballLeagueManager.Models.Entities.Main
 {
-    public class TeamSeason
+    public class TeamSeason : Entity<int>
     {
         public int MatchesPlayed { get; set; }
 
@@ -15,7 +15,5 @@
         public int TeamId { get; set; }
 
         public int SeasonId { get; set; }
-
-        public int LeagueId { get; set; }
     }
 }

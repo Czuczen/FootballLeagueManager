@@ -4,7 +4,6 @@ using FootballLeagueManager.Models.ViewModels.Home;
 using FootballLeagueManager.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Net.Http.Headers;
 
 namespace FootballLeagueManager.Controllers;
 
@@ -30,24 +29,6 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var client = new HttpClient();
-        var request = new HttpRequestMessage
-        {
-            Method = HttpMethod.Get,
-            RequestUri = new Uri("https://api-football-v1.p.rapidapi.com/v3/leagues"),
-            Headers =
-            {
-                { "X-RapidAPI-Key", "1ab69a4398msh52d9d4f8deb99bep1d50cdjsn127048b73f66" },
-                { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
-            },
-        };
-        using (var response = await client.SendAsync(request))
-        {
-            //response.EnsureSuccessStatusCode();
-            var body = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(body);
-        }
-
         return View(new LeagueTablesViewModel
         {
             Leagues = await _leagueRepository.GetAllAsync(),
