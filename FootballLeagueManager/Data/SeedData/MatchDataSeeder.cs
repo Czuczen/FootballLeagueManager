@@ -15,6 +15,8 @@ public class MatchDataSeeder : ISeeder
             Id = 1,
             HomeTeamId = 1,
             AwayTeamId = 2,
+            HomeTeamGoals = 1,
+            AwayTeamGoals = 2,
             Date = new DateTime(2023, 11, 20),
             Queue = 1,
             LeagueId = 1
@@ -24,6 +26,8 @@ public class MatchDataSeeder : ISeeder
             Id = 2,
             HomeTeamId = 2,
             AwayTeamId = 3,
+            HomeTeamGoals = 3,
+            AwayTeamGoals = 2,
             Date = new DateTime(2023, 2, 12),
             Queue = 1,
             LeagueId = 2
@@ -33,6 +37,8 @@ public class MatchDataSeeder : ISeeder
             Id = 3,
             HomeTeamId = 1,
             AwayTeamId = 3,
+            HomeTeamGoals = 1,
+            AwayTeamGoals = 0,
             Date = new DateTime(2023, 6, 26),
             Queue = 1,
             LeagueId = 3
