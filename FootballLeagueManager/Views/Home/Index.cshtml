@@ -1,8 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using FootballLeagueManager.Models.ViewModels.Home
+@model LeagueTablesViewModel
+
+@{
+    ViewData["Title"] = "Strona główna";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@foreach (var league in Model.Leagues)
+{
+    <p>@league.Name</p>
+}
+
+@foreach (var match in Model.Matches)
+{
+    <p>@match.Date</p>
+}
+
+@foreach (var team in Model.Teams)
+{
+    <p>@team.Name</p>
+}
