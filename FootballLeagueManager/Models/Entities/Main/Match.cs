@@ -6,6 +6,10 @@ public class Match : Entity<int>
 
     public int AwayTeamId { get; set; }
 
+    public int HomeTeamGoals { get; set; }
+
+    public int AwayTeamGoals { get; set; }
+
     public DateTime Date { get; set; }
 
     public int Queue { get; set; }
