@@ -2,10 +2,6 @@
 
 public class Match : Entity<int>
 {
-    public int HomeTeamId { get; set; }
-
-    public int AwayTeamId { get; set; }
-
     public int HomeTeamGoals { get; set; }
 
     public int AwayTeamGoals { get; set; }
@@ -13,6 +9,12 @@ public class Match : Entity<int>
     public DateTime Date { get; set; }
 
     public int Queue { get; set; }
+
+    public int HomeTeamId { get; set; }
+
+    public int AwayTeamId { get; set; }
+
+    public int SeasonId { get; set; }
 
     public int LeagueId { get; set; }
 }
