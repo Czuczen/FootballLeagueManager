@@ -1,6 +1,7 @@
 ﻿using FootballLeagueManager.Attributes;
 using FootballLeagueManager.Configuration.Dependencies.DependencyLifecycleInterfaces;
 using FootballLeagueManager.Models.Entities;
+using System.Linq.Expressions;
 
 namespace FootballLeagueManager.Repositories;
 
@@ -12,6 +13,10 @@ public interface IRepository<TEntity, TPrimaryKey> : IPerWebRequestDependency
     public TEntity GetById(TPrimaryKey id);
 
     public Task<TEntity> GetByIdAsync(TPrimaryKey id);
+
+    public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate);
+
+    public Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
 
     public IEnumerable<TEntity> GetAll();
 

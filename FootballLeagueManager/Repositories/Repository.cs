@@ -3,6 +3,7 @@ using FootballLeagueManager.Data;
 using FootballLeagueManager.Exceptions;
 using FootballLeagueManager.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FootballLeagueManager.Repositories;
 
@@ -35,7 +36,17 @@ public class Repository<TEntity, TPrimaryKey> :
                 throw new EntityNotFoundException($"Entity of type {typeof(TEntity).FullName} with ID {id} was not found.");
 
             return entity;
-        }
+    }
+
+    public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _ctx.Set<TEntity>().Where(predicate).ToList();
+    }
+
+    public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        return await _ctx.Set<TEntity>().Where(predicate).ToListAsync();
+    }
 
     public IEnumerable<TEntity> GetAll()
     {

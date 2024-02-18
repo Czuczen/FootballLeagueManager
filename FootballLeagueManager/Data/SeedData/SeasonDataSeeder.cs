@@ -12,7 +12,7 @@ namespace FootballLeagueManager.Data.SeedData
             new Season 
             { 
                 Id = 1,
-                Name = "",
+                Name = "2022/2023",
                 StartDate = new DateTime(2022, 11, 20),
                 EndDate = new DateTime(2023, 10, 20),
                 LeagueId = 1
@@ -20,7 +20,7 @@ namespace FootballLeagueManager.Data.SeedData
             new Season
             {
                 Id = 2,
-                Name = "",
+                Name = "2022/2023",
                 StartDate = new DateTime(2022, 11, 20),
                 EndDate = new DateTime(2023, 8, 20),
                 LeagueId = 1
@@ -28,7 +28,7 @@ namespace FootballLeagueManager.Data.SeedData
             new Season
             {
                 Id = 3,
-                Name = "",
+                Name = "2022/2023",
                 StartDate = new DateTime(2022, 11, 20),
                 EndDate = new DateTime(2023, 11, 20),
                 LeagueId = 1

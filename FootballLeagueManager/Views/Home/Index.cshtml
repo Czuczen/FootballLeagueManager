@@ -1,21 +1,88 @@
 ﻿@using FootballLeagueManager.Models.ViewModels.Home
-@model LeagueTablesViewModel
+@model TeamsTableViewModel
 
 @{
     ViewData["Title"] = "Strona główna";
 }
+<style>
+    .favorite {
+        color: yellow; /* Kolor gwiazdki, jeśli drużyna jest ulubiona */
+    }
+</style>
 
-@foreach (var league in Model.Leagues)
-{
-    <p>@league.Name</p>
-}
+<div class="row">
+    <form method="get">
+        <div class="d-flex bd-highlight mb-1">
+            <div class="form-group p-1 bd-highlight">
+                <select name="League" id="league" onchange="this.form.submit()">
+                    @Model.RenderLeagues
+                </select>
+            </div>
+            <div class="form-group p-1 bd-highlight">
+                <select name="Season" id="season" onchange="this.form.submit()">
+                    @Model.RenderSeasons
+                </select>
+            </div>
+            <div class="form-group p-1 bd-highlight">
+                <select name="League" id="league" onchange="this.form.submit()">
+                    @Model.RenderQueues
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
 
-@foreach (var match in Model.Matches)
-{
-    <p>@match.Date</p>
-}
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nazwa</th>
+                <th>Kraj</th>
+                <th style="width: 10%;">Ulubiona</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in Model.Teams)
+            {
+                <tr class="team-info">
+                    <td>@team.Name</td>
+                    <td>@team.Country</td>
+                    @* jeśli zalogowany *@
+                    <td class="text-center" style="font-size: large;" title="Dodaj do ulubionych lub usuń z ulubionych">&bigstar;</td>
+                </tr>
 
-@foreach (var team in Model.Teams)
-{
-    <p>@team.Name</p>
+                <tr class="matches-stats" style="display: none;">
+                    <td colspan="100%">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Gole odwiedzających</th>
+                                        <th>Gole gospodarzy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var match in Model.Matches.Where(item => item.HomeTeamId == team.Id || item.AwayTeamId == team.Id))
+                                    {
+                                        <tr>
+                                            <td>@match.AwayTeamGoals</td>
+                                            <td>@match.HomeTeamGoals</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $("tr.team-info").click(function () {
+            $(this).next("tr").toggle(300);
+        });
+    </script>
 }
