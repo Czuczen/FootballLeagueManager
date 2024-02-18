@@ -1,0 +1,37 @@
+﻿@using FootballLeagueManager.Models.ViewModels.Home
+
+@model LeagueViewModel
+
+<div class="col-xs-12 col-md-3 col-sm-6 feature">
+    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+        <div class="mainflip">
+            <div class="frontside">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p>
+                            <img class="img-fluid" alt="exsamplealt" src="https://assets.skor.id/crop/0x0:0x0/x/photo/2020/04/02/574196038.jpg" />
+                        </p>
+                        <h4 class="card-title">@Model.League.Name</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="backside">
+                <div class="card">
+                    <div class="card-body text-center mt-4">
+
+                        <label class="mt-3" for="@Model.SeasonTagId">Wybierz sezon</label>
+                        <select class="m-2 text-center" name="@Model.SeasonTagId" id="@Model.SeasonTagId">
+                            @Model.RenderSeasons
+                        </select>
+
+                        <ul class="list-inline mt-4">
+                            <li class="list-inline-item">
+                                <a id="@("league-" + Model.League.Id)" class="btn btn-outline-primary feature">Przeglądaj</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

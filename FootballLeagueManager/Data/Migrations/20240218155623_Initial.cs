@@ -19,7 +19,7 @@ namespace FootballLeagueManager.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TeamId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -133,9 +133,9 @@ namespace FootballLeagueManager.Data.Migrations
                 columns: new[] { "Id", "EndDate", "LeagueId", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(2023, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, new DateTime(2023, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "2022/2023", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "2022/2023", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2023, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "2022/2023", new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -144,8 +144,9 @@ namespace FootballLeagueManager.Data.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 3, 9, 20, 1, 1, 5 },
-                    { 2, 1, 3, 10, 45, 1, 1, 6 },
-                    { 3, 2, 2, 10, 5, 1, 1, 6 }
+                    { 2, 1, 3, 10, 45, 1, 2, 6 },
+                    { 3, 1, 3, 10, 45, 2, 2, 6 },
+                    { 4, 2, 2, 10, 5, 3, 3, 6 }
                 });
 
             migrationBuilder.InsertData(
