@@ -1,0 +1,91 @@
+﻿@using FootballLeagueManager.Models.ViewModels.Home
+@model List<TeamTableViewModel>
+
+@{
+    ViewData["Title"] = "Tabela ligowa";
+    var isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home/leagueTable.css">
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nazwa drużyny</th>
+                <th>Kraj</th>
+
+                <th>Rozegrane mecze</th>
+                <th>Wygrane</th>
+                <th>Remisy</th>
+                <th>Przegrane</th>
+                <th>Punkty</th>
+
+                @if (isAuthenticated)
+                {
+                    <th style="width: 5%;">Ulubiona</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in Model)
+            {
+                <tr class="team-info">
+                    <td>@team.Team.Name</td>
+                    <td>@team.Team.Country</td>
+
+                    <td>@team.TeamSeasonStats.MatchesPlayed</td>
+                    <td>@team.TeamSeasonStats.Wins</td>
+                    <td>@team.TeamSeasonStats.Draws</td>
+                    <td>@team.TeamSeasonStats.Losses</td>
+                    <td>@team.TeamSeasonStats.Points</td>
+
+                    @if (isAuthenticated)
+                    {
+                        <td class="text-center" style="font-size: large;" title="@(team.Favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych")">
+                            <div id="@team.Team.Id" class="favorite-icon @(team.Favorite ? "favorite-team" : "")">&bigstar;</div>
+                        </td>
+                    }
+                </tr>
+
+                <tr class="matches-stats" style="display: none;">
+                    <td colspan="100%">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Gospodarze</th>
+                                        <th>Goście</th>
+                                        <th>Bramki gospodarzy</th>
+                                        <th>Bramki gości</th>
+                                        <th>Data spotkania</th>
+                                        <th>Kolejka</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var match in team.Matches)
+                                    {
+                                        <tr>
+                                            <td>@match.HomeTeamName</td>
+                                            <td>@match.AwayTeamName</td>
+                                            <td>@match.HomeTeamGoals</td>
+                                            <td>@match.AwayTeamGoals</td>
+                                            <td>@match.Date</td>
+                                            <td>@match.Queue</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/home/leagueTable.js"></script>
+}

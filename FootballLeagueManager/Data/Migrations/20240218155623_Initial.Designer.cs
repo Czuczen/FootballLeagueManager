@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootballLeagueManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240217134251_Initial")]
+    [Migration("20240218155623_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -159,23 +159,23 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 1,
                             EndDate = new DateTime(2023, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeagueId = 1,
-                            Name = "",
+                            Name = "2022/2023",
                             StartDate = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             EndDate = new DateTime(2023, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LeagueId = 1,
-                            Name = "",
+                            LeagueId = 2,
+                            Name = "2022/2023",
                             StartDate = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             EndDate = new DateTime(2023, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LeagueId = 1,
-                            Name = "",
+                            LeagueId = 3,
+                            Name = "2022/2023",
                             StartDate = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -274,18 +274,29 @@ namespace FootballLeagueManager.Data.Migrations
                             MatchesPlayed = 10,
                             Points = 45,
                             SeasonId = 1,
-                            TeamId = 1,
+                            TeamId = 2,
                             Wins = 6
                         },
                         new
                         {
                             Id = 3,
+                            Draws = 1,
+                            Losses = 3,
+                            MatchesPlayed = 10,
+                            Points = 45,
+                            SeasonId = 2,
+                            TeamId = 2,
+                            Wins = 6
+                        },
+                        new
+                        {
+                            Id = 4,
                             Draws = 2,
                             Losses = 2,
                             MatchesPlayed = 10,
                             Points = 5,
-                            SeasonId = 1,
-                            TeamId = 1,
+                            SeasonId = 3,
+                            TeamId = 3,
                             Wins = 6
                         });
                 });
@@ -301,8 +312,9 @@ namespace FootballLeagueManager.Data.Migrations
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

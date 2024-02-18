@@ -27,7 +27,7 @@ public class Repository<TEntity, TPrimaryKey> :
                 throw new EntityNotFoundException($"Entity of type {typeof(TEntity).FullName} with ID {id} was not found.");
 
             return entity;
-        }
+    }
 
     public async Task<TEntity> GetByIdAsync(TPrimaryKey id)
     {
@@ -51,12 +51,12 @@ public class Repository<TEntity, TPrimaryKey> :
     public IEnumerable<TEntity> GetAll()
     {
             return _ctx.Set<TEntity>().ToList();
-        }
+    }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
             return await _ctx.Set<TEntity>().ToListAsync();
-        }
+    }
 
     public TEntity Create(TEntity entity)
     {
@@ -64,7 +64,7 @@ public class Repository<TEntity, TPrimaryKey> :
             _ctx.SaveChanges();
 
             return entityEntry.Entity;
-        }
+    }
 
     public async Task<TEntity> CreateAsync(TEntity entity)
     {
@@ -72,7 +72,7 @@ public class Repository<TEntity, TPrimaryKey> :
             await _ctx.SaveChangesAsync();
 
             return entityEntry.Entity;
-        }
+    }
 
     public TEntity Update(TEntity entity)
     {
@@ -80,7 +80,7 @@ public class Repository<TEntity, TPrimaryKey> :
             _ctx.SaveChanges();
 
             return entityEntry.Entity;
-        }
+    }
 
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {
@@ -88,7 +88,7 @@ public class Repository<TEntity, TPrimaryKey> :
             await _ctx.SaveChangesAsync();
 
             return entityEntry.Entity;
-        }
+    }
 
     public void Delete(TPrimaryKey id)
     {
@@ -98,7 +98,7 @@ public class Repository<TEntity, TPrimaryKey> :
 
             _ctx.Set<TEntity>().Remove(entity);
             _ctx.SaveChanges();
-        }
+    }
 
     public async Task DeleteAsync(TPrimaryKey id)
     {
@@ -108,17 +108,17 @@ public class Repository<TEntity, TPrimaryKey> :
 
             _ctx.Set<TEntity>().Remove(entity);
             await _ctx.SaveChangesAsync();
-        }
+    }
 
     public void Delete(TEntity entity)
     {
             _ctx.Set<TEntity>().Remove(entity);
             _ctx.SaveChanges();
-        }
+    }
 
     public async Task DeleteAsync(TEntity entity)
     {
             _ctx.Set<TEntity>().Remove(entity);
             await _ctx.SaveChangesAsync();
-        }
+    }
 }

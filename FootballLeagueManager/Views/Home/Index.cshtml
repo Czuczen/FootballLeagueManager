@@ -1,88 +1,25 @@
 ﻿@using FootballLeagueManager.Models.ViewModels.Home
-@model TeamsTableViewModel
+@model List<LeagueViewModel>
 
 @{
     ViewData["Title"] = "Strona główna";
 }
-<style>
-    .favorite {
-        color: yellow; /* Kolor gwiazdki, jeśli drużyna jest ulubiona */
-    }
-</style>
 
-<div class="row">
-    <form method="get">
-        <div class="d-flex bd-highlight mb-1">
-            <div class="form-group p-1 bd-highlight">
-                <select name="League" id="league" onchange="this.form.submit()">
-                    @Model.RenderLeagues
-                </select>
-            </div>
-            <div class="form-group p-1 bd-highlight">
-                <select name="Season" id="season" onchange="this.form.submit()">
-                    @Model.RenderSeasons
-                </select>
-            </div>
-            <div class="form-group p-1 bd-highlight">
-                <select name="League" id="league" onchange="this.form.submit()">
-                    @Model.RenderQueues
-                </select>
-            </div>
-        </div>
-    </form>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/home/index.css">
+}
 
-<div class="table-responsive">
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Nazwa</th>
-                <th>Kraj</th>
-                <th style="width: 10%;">Ulubiona</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var team in Model.Teams)
+<section id="homePage">
+    <div class="container">
+        <div class="row">
+            @foreach(var league in Model)
             {
-                <tr class="team-info">
-                    <td>@team.Name</td>
-                    <td>@team.Country</td>
-                    @* jeśli zalogowany *@
-                    <td class="text-center" style="font-size: large;" title="Dodaj do ulubionych lub usuń z ulubionych">&bigstar;</td>
-                </tr>
-
-                <tr class="matches-stats" style="display: none;">
-                    <td colspan="100%">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Gole odwiedzających</th>
-                                        <th>Gole gospodarzy</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var match in Model.Matches.Where(item => item.HomeTeamId == team.Id || item.AwayTeamId == team.Id))
-                                    {
-                                        <tr>
-                                            <td>@match.AwayTeamGoals</td>
-                                            <td>@match.HomeTeamGoals</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
+                @await Html.PartialAsync("~/Views/Home/_Card.cshtml", league);
             }
-        </tbody>
-    </table>
-</div>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
-    <script>
-        $("tr.team-info").click(function () {
-            $(this).next("tr").toggle(300);
-        });
-    </script>
+    <script src="~/js/home/index.js"></script>
 }

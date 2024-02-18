@@ -28,7 +28,7 @@ namespace FootballLeagueManager.Data.SeedData
                 Draws = 1,
                 Losses = 3,
                 Points = 45,
-                TeamId = 1,
+                TeamId = 2,
                 SeasonId = 1
             },
             new TeamSeason
@@ -36,11 +36,22 @@ namespace FootballLeagueManager.Data.SeedData
                 Id = 3,
                 MatchesPlayed = 10,
                 Wins = 6,
+                Draws = 1,
+                Losses = 3,
+                Points = 45,
+                TeamId = 2,
+                SeasonId = 2
+            },
+            new TeamSeason
+            {
+                Id = 4,
+                MatchesPlayed = 10,
+                Wins = 6,
                 Draws = 2,
                 Losses = 2,
                 Points = 5,
-                TeamId = 1,
-                SeasonId = 1
+                TeamId = 3,
+                SeasonId = 3
             }
         };
 
