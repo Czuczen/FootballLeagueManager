@@ -2,15 +2,17 @@
 @model List<TeamTableViewModel>
 
 @{
-    ViewData["Title"] = "Tabela ligowa";
     var isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+    var isFavoriteTeamsTab = ViewBag.IsFavoriteTeamsTab ?? false;
+
+    ViewData["Title"] = isFavoriteTeamsTab ? "Ulubione drużyny" : "Tabela ligowa";
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/home/leagueTable.css">
 }
 
-<h2 class="text-center mb-3">@ViewBag.LeagueName - @ViewBag.SeasonName</h2>
+<h2 class="text-center mb-3">@(isFavoriteTeamsTab ? "Ulubione drużyny" : ViewBag.LeagueName + " - " + ViewBag.SeasonName)</h2>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover league-table">
@@ -19,12 +21,15 @@
                 <th>Nazwa drużyny</th>
                 <th>Kraj</th>
 
-                <th>Rozegrane mecze</th>
-                <th>Wygrane</th>
-                <th>Remisy</th>
-                <th>Przegrane</th>
-                <th>Punkty</th>
-
+                @if (!isFavoriteTeamsTab)
+                {
+                    <th>Rozegrane mecze</th>
+                    <th>Wygrane</th>
+                    <th>Remisy</th>
+                    <th>Przegrane</th>
+                    <th>Punkty</th>
+                }
+                
                 @if (isAuthenticated)
                 {
                     <th style="width: 5%;">Ulubiona</th>
@@ -38,50 +43,61 @@
                     <td>@team.Team.Name</td>
                     <td>@team.Team.Country</td>
 
-                    <td>@team.TeamSeasonStats.MatchesPlayed</td>
-                    <td>@team.TeamSeasonStats.Wins</td>
-                    <td>@team.TeamSeasonStats.Draws</td>
-                    <td>@team.TeamSeasonStats.Losses</td>
-                    <td>@team.TeamSeasonStats.Points</td>
-
+                    @if (!isFavoriteTeamsTab)
+                    {
+                        <td>@team.TeamSeasonStats.MatchesPlayed</td>
+                        <td>@team.TeamSeasonStats.Wins</td>
+                        <td>@team.TeamSeasonStats.Draws</td>
+                        <td>@team.TeamSeasonStats.Losses</td>
+                        <td>@team.TeamSeasonStats.Points</td>
+                    }
+                    
                     @if (isAuthenticated)
                     {
-                        <td class="text-center" style="font-size: large;" title="@(team.Favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych")">
-                            <div id="@team.Team.Id" class="favorite-icon @(team.Favorite ? "favorite-team" : "")">&bigstar;</div>
+                        <td class="text-center">
+                            <div id="@team.Team.Id" class="favorite-icon font-size-large @(team.Favorite ? "favorite-team" : "")"
+                                 title="@(team.Favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych")">
+                                 &bigstar;
+                             </div>
                         </td>
                     }
                 </tr>
 
                 <tr class="matches-stats" style="display: none;">
-                    <td colspan="100%">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="table-info">
-                                    <tr>
-                                        <th>Gospodarze</th>
-                                        <th>Goście</th>
-                                        <th>Bramki gospodarzy</th>
-                                        <th>Bramki gości</th>
-                                        <th>Data spotkania</th>
-                                        <th>Kolejka</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var match in team.Matches)
-                                    {
+                    @if (team.Matches.Any())
+                    {
+                        <td colspan="100%">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-info">
                                         <tr>
-                                            <td>@match.HomeTeamName</td>
-                                            <td>@match.AwayTeamName</td>
-                                            <td>@match.HomeTeamGoals</td>
-                                            <td>@match.AwayTeamGoals</td>
-                                            <td>@match.Date</td>
-                                            <td>@match.Queue</td>
+                                            <th>Gospodarze</th>
+                                            <th>Goście</th>
+                                            <th>Bramki gospodarzy</th>
+                                            <th>Bramki gości</th>
+                                            <th>Data spotkania</th>
+                                            <th>Kolejka</th>
+                                            <th>Sezon</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var match in team.Matches)
+                                        {
+                                            <tr>
+                                                <td>@match.HomeTeamName</td>
+                                                <td>@match.AwayTeamName</td>
+                                                <td>@match.HomeTeamGoals</td>
+                                                <td>@match.AwayTeamGoals</td>
+                                                <td>@match.Date</td>
+                                                <td>@match.Queue</td>
+                                                <td>@match.SeasonName</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

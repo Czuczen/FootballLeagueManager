@@ -88,7 +88,8 @@ public class HomeController : Controller
                     HomeTeamGoals = match.HomeTeamGoals,
                     AwayTeamGoals = match.AwayTeamGoals,
                     Date = match.Date,
-                    Queue = match.Queue
+                    Queue = match.Queue,
+                    SeasonName = season.Name
                 });
             }
 
@@ -136,6 +137,7 @@ public class HomeController : Controller
         var ret = new List<TeamTableViewModel>();
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var allSeasons = await _seasonRepository.GetAllAsync();
         var allTeams = await _teamRepository.GetAllAsync();
         var allTeamsSeasonStats = await _teamSeasonStatsRepository.GetAllAsync();
         var allMatches = await _matchRepository.GetAllAsync();
@@ -148,6 +150,7 @@ public class HomeController : Controller
 
             foreach (var match in allMatches.Where(item => item.HomeTeamId == team.Id || item.AwayTeamId == team.Id))
             {
+                var season = allSeasons.Single(item => item.Id == match.SeasonId);
                 matches.Add(new MatchViewModel
                 {
                     HomeTeamName = allTeams.Single(item => item.Id == match.HomeTeamId).Name,
@@ -155,7 +158,8 @@ public class HomeController : Controller
                     HomeTeamGoals = match.HomeTeamGoals,
                     AwayTeamGoals = match.AwayTeamGoals,
                     Date = match.Date,
-                    Queue = match.Queue
+                    Queue = match.Queue,
+                    SeasonName = season.Name
                 });
             }
 
@@ -163,11 +167,11 @@ public class HomeController : Controller
             {
                 Team = team,
                 Favorite = favoriteTeamsRelations.FirstOrDefault(item => item.TeamId == team.Id) != null,
-                TeamSeasonStats = new TeamSeasonStats(),
-                //TeamSeasonStats = allTeamsSeasonStats.Single(item => item.TeamId == team.Id), // problem z podzia³em statystyk sezonu mo¿e sumowaæ wszystkie
                 Matches = matches
             });
         }
+
+        ViewBag.IsFavoriteTeamsTab = true;
 
         return View("LeagueTable", ret);
     }

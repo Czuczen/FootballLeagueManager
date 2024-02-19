@@ -8,7 +8,7 @@ $("tr.team-info").click(function (e) {
 // dodawanie do ulubionych
 $(".favorite-icon").one("click", AddOrRemoveFavoriteTeam);
 
-function AddOrRemoveFavoriteTeam () {
+function AddOrRemoveFavoriteTeam() {
 
     const $this = $(this);
     const isFavorite = $this.hasClass("favorite-team");
@@ -16,14 +16,18 @@ function AddOrRemoveFavoriteTeam () {
 
     $this.toggleClass("favorite-team");
 
+    if (isFavorite) {
+        $this.attr("title", "Dodaj do ulubionych")
+    }
+    else {
+        $this.attr("title", "Usuń z ulubionych")
+    }
+
     $.ajax({
         url: "/Home/AddOrRemoveFavoriteTeam",
         method: "POST",
         data: { teamId: teamId, isFavorite: isFavorite },
-        success: data => {
-            console.log(data);
-            $this.one("click", AddOrRemoveFavoriteTeam);
-        },
+        success: () => $this.one("click", AddOrRemoveFavoriteTeam),
         error: () => showAjaxError()
     });
 }

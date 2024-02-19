@@ -2,6 +2,8 @@
 {
     public class MatchViewModel
     {
+        public string SeasonName { get; set; }
+
         public string HomeTeamName { get; set; }
 
         public string AwayTeamName { get; set; }
