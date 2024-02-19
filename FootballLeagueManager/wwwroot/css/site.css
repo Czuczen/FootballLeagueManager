@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.favorite-teams-tab {
+    border: 4px outset rgba(28,110,164,0.5);
+    border-radius: 19px;
+}
+
+.favorite-teams-tab:hover {
+    background-color: lightsteelblue;
+}
+
