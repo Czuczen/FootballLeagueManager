@@ -8,7 +8,7 @@ namespace FootballLeagueManager.Models.ViewModels.Home
 
         public bool Favorite { get; set; }
 
-        public TeamSeason TeamSeasonStats { get; set; }
+        public TeamSeasonStats TeamSeasonStats { get; set; }
 
         public IEnumerable<MatchViewModel> Matches { get; set; }
     }

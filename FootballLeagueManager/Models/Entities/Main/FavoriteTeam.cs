@@ -1,4 +1,4 @@
-﻿namespace FootballLeagueManager.Models.Entities.Relations;
+﻿namespace FootballLeagueManager.Models.Entities.Main;
 
 public class FavoriteTeam : Entity<int>
 {

@@ -1,5 +1,4 @@
 using FootballLeagueManager.Models.Entities.Main;
-using FootballLeagueManager.Models.Entities.Relations;
 using FootballLeagueManager.Models.ViewModels;
 using FootballLeagueManager.Models.ViewModels.Home;
 using FootballLeagueManager.Repositories;
@@ -15,7 +14,7 @@ public class HomeController : Controller
     private readonly IRepository<League, int> _leagueRepository;
     private readonly IRepository<Team, int> _teamRepository;
     private readonly IRepository<Match, int> _matchRepository;
-    private readonly IRepository<TeamSeason, int> _teamSeasonRepository;
+    private readonly IRepository<TeamSeasonStats, int> _teamSeasonStatsRepository;
     private readonly IRepository<Season, int> _seasonRepository;
     private readonly IRepository<FavoriteTeam, int> _favoriteTeamRepository;
 
@@ -24,7 +23,7 @@ public class HomeController : Controller
         IRepository<League, int> leagueRepository,
         IRepository<Team, int> teamRepository,
         IRepository<Match, int> matchRepository,
-        IRepository<TeamSeason, int> teamSeasonRepository,
+        IRepository<TeamSeasonStats, int> teamSeasonStatsRepository,
         IRepository<Season, int> seasonRepository,
         IRepository<FavoriteTeam, int> favoriteTeamRepository
         )
@@ -33,7 +32,7 @@ public class HomeController : Controller
         _leagueRepository = leagueRepository;
         _teamRepository = teamRepository;
         _matchRepository = matchRepository;
-        _teamSeasonRepository = teamSeasonRepository;
+        _teamSeasonStatsRepository = teamSeasonStatsRepository;
         _seasonRepository = seasonRepository;
         _favoriteTeamRepository = favoriteTeamRepository;
     }
@@ -63,7 +62,7 @@ public class HomeController : Controller
         var favoriteTeams = new List<FavoriteTeam>();
 
         var allTeams = await _teamRepository.GetAllAsync();
-        var teamsSeasonStats = await _teamSeasonRepository.GetWhereAsync(item => item.SeasonId == seasonId);   
+        var teamsSeasonStats = await _teamSeasonStatsRepository.GetWhereAsync(item => item.SeasonId == seasonId);   
         var availableTeams = allTeams.Where(item => teamsSeasonStats.Any(stats => stats.TeamId == item.Id));
         var availableMatches = await _matchRepository.GetWhereAsync(item => item.SeasonId == seasonId);
 
@@ -133,7 +132,7 @@ public class HomeController : Controller
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var allTeams = await _teamRepository.GetAllAsync();
-        var allTeamsSeasonStats = await _teamSeasonRepository.GetAllAsync();
+        var allTeamsSeasonStats = await _teamSeasonStatsRepository.GetAllAsync();
         var allMatches = await _matchRepository.GetAllAsync();
         var favoriteTeamsRelations = await _favoriteTeamRepository.GetWhereAsync(item => item.UserId == userId);
         var favoriteTeams = allTeams.Where(item => favoriteTeamsRelations.Any(rel => rel.TeamId == item.Id));
@@ -159,7 +158,7 @@ public class HomeController : Controller
             {
                 Team = team,
                 Favorite = favoriteTeamsRelations.FirstOrDefault(item => item.TeamId == team.Id) != null,
-                TeamSeasonStats = new TeamSeason(),
+                TeamSeasonStats = new TeamSeasonStats(),
                 //TeamSeasonStats = allTeamsSeasonStats.Single(item => item.TeamId == team.Id), // problem z podzia³em statystyk sezonu mo¿e sumowaæ wszystkie
                 Matches = matches
             });

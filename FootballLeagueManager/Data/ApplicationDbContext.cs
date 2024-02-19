@@ -1,6 +1,5 @@
 ﻿using FootballLeagueManager.Data.SeedData;
 using FootballLeagueManager.Models.Entities.Main;
-using FootballLeagueManager.Models.Entities.Relations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +19,7 @@ public class ApplicationDbContext : IdentityDbContext
     
     public DbSet<Team> Teams { get; set; }
 
-    public DbSet<TeamSeason> TeamSeasons { get; set; }
+    public DbSet<TeamSeasonStats> TeamSeasonsStats { get; set; }
 
     public DbSet<FavoriteTeam> FavoriteTeams { get; set; }
     

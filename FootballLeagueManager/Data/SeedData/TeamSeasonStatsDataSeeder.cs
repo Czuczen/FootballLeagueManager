@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootballLeagueManager.Data.SeedData
 {
-    public class TeamSeasonDataSeeder : ISeeder
+    public class TeamSeasonStatsDataSeeder : ISeeder
     {
         public int Order => 4;
 
-        private readonly List<TeamSeason> _teamSeasons = new()
+        private readonly List<TeamSeasonStats> _teamSeasonsStats = new()
         {
             // === Belgium start ===
 
             // === Jupiler League start ===
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 1,
                 MatchesPlayed = 34,
@@ -23,7 +23,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 1,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 2,
                 MatchesPlayed = 34,
@@ -34,7 +34,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 2,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 3,
                 MatchesPlayed = 34,
@@ -45,7 +45,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 3,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 4,
                 MatchesPlayed = 34,
@@ -56,7 +56,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 4,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 5,
                 MatchesPlayed = 34,
@@ -67,7 +67,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 5,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 6,
                 MatchesPlayed = 34,
@@ -78,7 +78,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 6,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 7,
                 MatchesPlayed = 34,
@@ -89,7 +89,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 7,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 8,
                 MatchesPlayed = 34,
@@ -100,7 +100,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 8,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 9,
                 MatchesPlayed = 34,
@@ -111,7 +111,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 9,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 10,
                 MatchesPlayed = 34,
@@ -122,7 +122,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 10,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 11,
                 MatchesPlayed = 34,
@@ -133,7 +133,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 11,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 12,
                 MatchesPlayed = 34,
@@ -144,7 +144,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 12,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 13,
                 MatchesPlayed = 34,
@@ -155,7 +155,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 13,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 14,
                 MatchesPlayed = 34,
@@ -166,7 +166,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 14,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 15,
                 MatchesPlayed = 34,
@@ -177,7 +177,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 15,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 16,
                 MatchesPlayed = 34,
@@ -188,7 +188,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 16,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 17,
                 MatchesPlayed = 34,
@@ -199,7 +199,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 17,
                 SeasonId = 1
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 18,
                 MatchesPlayed = 34,
@@ -213,7 +213,7 @@ namespace FootballLeagueManager.Data.SeedData
             // === Jupiler League end ===
 
             // === Challenger Pro League start ===
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 19,
                 MatchesPlayed = 22,
@@ -224,7 +224,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 19,
                 SeasonId = 2
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 20,
                 MatchesPlayed = 22,
@@ -244,7 +244,7 @@ namespace FootballLeagueManager.Data.SeedData
             // === England start ===
             // === Premier League start ===
             // season 2021/2022
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 21,
                 MatchesPlayed = 38,
@@ -255,7 +255,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 21,
                 SeasonId = 3
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 22,
                 MatchesPlayed = 38,
@@ -266,7 +266,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 22,
                 SeasonId = 3
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 23,
                 MatchesPlayed = 38,
@@ -277,7 +277,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 23,
                 SeasonId = 3
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 24,
                 MatchesPlayed = 38,
@@ -288,7 +288,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 24,
                 SeasonId = 3
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 25,
                 MatchesPlayed = 38,
@@ -299,7 +299,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 25,
                 SeasonId = 3
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 26,
                 MatchesPlayed = 38,
@@ -311,7 +311,7 @@ namespace FootballLeagueManager.Data.SeedData
                 SeasonId = 3
             },
             // season 2022/2023
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 27,
                 MatchesPlayed = 38,
@@ -322,7 +322,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 21,
                 SeasonId = 4
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 28,
                 MatchesPlayed = 38,
@@ -333,7 +333,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 22,
                 SeasonId = 4
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 29,
                 MatchesPlayed = 38,
@@ -344,7 +344,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 23,
                 SeasonId = 4
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 30,
                 MatchesPlayed = 38,
@@ -355,7 +355,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 24,
                 SeasonId = 4
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 31,
                 MatchesPlayed = 38,
@@ -366,7 +366,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 25,
                 SeasonId = 4
             },
-            new TeamSeason
+            new TeamSeasonStats
             {
                 Id = 32,
                 MatchesPlayed = 38,
@@ -377,7 +377,7 @@ namespace FootballLeagueManager.Data.SeedData
                 TeamId = 26,
                 SeasonId = 4
             },
-             new TeamSeason
+             new TeamSeasonStats
             {
                 Id = 33,
                 MatchesPlayed = 38,
@@ -394,8 +394,8 @@ namespace FootballLeagueManager.Data.SeedData
 
         public void Seed(ModelBuilder modelBuilder)
         {
-            foreach (var teamSeason in _teamSeasons)
-                modelBuilder.Entity<TeamSeason>().HasData(teamSeason);
+            foreach (var teamSeasonStats in _teamSeasonsStats)
+                modelBuilder.Entity<TeamSeasonStats>().HasData(teamSeasonStats);
         }
     }
 }

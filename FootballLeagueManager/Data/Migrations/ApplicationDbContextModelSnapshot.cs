@@ -22,6 +22,26 @@ namespace FootballLeagueManager.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.FavoriteTeam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FavoriteTeams");
+                });
+
             modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.League", b =>
                 {
                     b.Property<int>("Id")
@@ -718,7 +738,7 @@ namespace FootballLeagueManager.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.TeamSeason", b =>
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.TeamSeasonStats", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -749,7 +769,7 @@ namespace FootballLeagueManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TeamSeasons");
+                    b.ToTable("TeamSeasonsStats");
 
                     b.HasData(
                         new
@@ -1115,26 +1135,6 @@ namespace FootballLeagueManager.Data.Migrations
                             TeamId = 27,
                             Wins = 11
                         });
-                });
-
-            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Relations.FavoriteTeam", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FavoriteTeams");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

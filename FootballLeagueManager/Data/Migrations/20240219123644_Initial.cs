@@ -91,7 +91,7 @@ namespace FootballLeagueManager.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamSeasons",
+                name: "TeamSeasonsStats",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -106,7 +106,7 @@ namespace FootballLeagueManager.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamSeasons", x => x.Id);
+                    table.PrimaryKey("PK_TeamSeasonsStats", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
@@ -172,7 +172,7 @@ namespace FootballLeagueManager.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TeamSeasons",
+                table: "TeamSeasonsStats",
                 columns: new[] { "Id", "Draws", "Losses", "MatchesPlayed", "Points", "SeasonId", "TeamId", "Wins" },
                 values: new object[,]
                 {
@@ -265,7 +265,7 @@ namespace FootballLeagueManager.Data.Migrations
                 name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "TeamSeasons");
+                name: "TeamSeasonsStats");
         }
     }
 }
