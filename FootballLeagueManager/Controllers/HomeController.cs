@@ -61,6 +61,8 @@ public class HomeController : Controller
         var ret = new List<TeamTableViewModel>();
         var favoriteTeams = new List<FavoriteTeam>();
 
+        var season = await _seasonRepository.GetByIdAsync(seasonId);
+        var league = await _leagueRepository.GetByIdAsync(season.LeagueId);
         var allTeams = await _teamRepository.GetAllAsync();
         var teamsSeasonStats = await _teamSeasonStatsRepository.GetWhereAsync(item => item.SeasonId == seasonId);   
         var availableTeams = allTeams.Where(item => teamsSeasonStats.Any(stats => stats.TeamId == item.Id));
@@ -98,6 +100,9 @@ public class HomeController : Controller
                 Matches = matches
             });
         }
+
+        ViewBag.LeagueName = league.Name;
+        ViewBag.SeasonName = season.Name;
 
         return View(ret);
     }

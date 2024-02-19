@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="~/css/home/leagueTable.css">
 }
 
+<h2 class="text-center mb-3">@ViewBag.LeagueName - @ViewBag.SeasonName</h2>
+
 <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
+    <table class="table table-bordered table-hover league-table">
+        <thead class="table-secondary">
             <tr>
                 <th>Nazwa drużyny</th>
                 <th>Kraj</th>
@@ -53,8 +55,8 @@
                 <tr class="matches-stats" style="display: none;">
                     <td colspan="100%">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead class="table-dark">
+                            <table class="table table-bordered">
+                                <thead class="table-info">
                                     <tr>
                                         <th>Gospodarze</th>
                                         <th>Goście</th>
