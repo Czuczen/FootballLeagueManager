@@ -15,8 +15,7 @@ $('.feature.col-xs-12.col-md-3.col-sm-6').each(function () {
 $("a.feature").click(function () {
     const $this = $(this);
     const leagueId = $this.attr("id").substring($this.attr("id").indexOf("-") + 1);
-    const $season = $("#season-" + leagueId);
-    const seasonId = $season.attr("id").substring($season.attr("id").indexOf("-") + 1);
-
+    const seasonId = $("#season-" + leagueId).val();
+    
     window.location.href = window.location.pathname + "Home/LeagueTable?seasonId=" + seasonId;
 });

@@ -3,11 +3,9 @@ using FootballLeagueManager.Models.Entities.Relations;
 using FootballLeagueManager.Models.ViewModels;
 using FootballLeagueManager.Models.ViewModels.Home;
 using FootballLeagueManager.Repositories;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FootballLeagueManager.Controllers;
 

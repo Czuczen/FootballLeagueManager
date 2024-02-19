@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FootballLeagueManager.Models.Entities.Main;
+﻿namespace FootballLeagueManager.Models.Entities.Main;
 
 public class Match : Entity<int>
 {

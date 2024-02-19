@@ -1,5 +1,4 @@
 ﻿using FootballLeagueManager.Models.Entities.Main;
-using Microsoft.AspNetCore.Html;
 
 namespace FootballLeagueManager.Models.ViewModels.Home
 {
