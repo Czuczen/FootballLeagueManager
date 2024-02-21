@@ -13,19 +13,16 @@ Kroki i decyzje:
 10. Implementacja dodawania do ulubionych
 11. Implementacja wyświetlania ulubionych drużyn
 12. Testy, weryfikacje, uzupełnienia
-13. Refaktoryzacja
+13. Refaktoryzacja - dodanie do modeli encji połączonych. Pobieranie wymaganych rekordów jednym zapytaniem
   
   
 Co jeszcze można dodać:
-1. Funkcjonalność host admina, który będzie mógł zarządzać użytkownikami i rolami
-2. Dodać CRUD'a dla wszystkich encji żeby użytkownicy z odpowiednią rolą mogli dodawać nowe drużyny, mecze itp.
-3. Dodać repozytorium dla CRUD'a które będzie generyczne z podziałem na warstwy typu Dto, UpdateDto, CreateDto itp.
-4. Dodać takie tabele jak zawodnik, gol i inne.
+1. Paginacja dla tabel ligowych
+2. Funkcjonalność host admina, który będzie mógł zarządzać użytkownikami i rolami
+3. Dodać CRUD'a dla wszystkich encji żeby użytkownicy z odpowiednią rolą mogli dodawać nowe drużyny, mecze itp.
+4. Dodać repozytorium dla CRUD'a które będzie generyczne z podziałem na warstwy typu Dto, UpdateDto, CreateDto itp.
+5. Dodać takie tabele jak zawodnik, faul, bramka i inne
   
-  
-  
-  
-
 ## Jak uruchomić aplikację
 
 1. W projekcie "**FootballLeagueManager**" dodaj plik "**secrets.json**" i uzupełnij go według szablonu:  
