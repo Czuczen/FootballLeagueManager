@@ -2,7 +2,9 @@ using FootballLeagueManager.Models.Entities.Main;
 using FootballLeagueManager.Models.ViewModels;
 using FootballLeagueManager.Models.ViewModels.Home;
 using FootballLeagueManager.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -10,29 +12,17 @@ namespace FootballLeagueManager.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IRepository<League, int> _leagueRepository;
-    private readonly IRepository<Team, int> _teamRepository;
-    private readonly IRepository<Match, int> _matchRepository;
-    private readonly IRepository<TeamSeasonStats, int> _teamSeasonStatsRepository;
     private readonly IRepository<Season, int> _seasonRepository;
     private readonly IRepository<FavoriteTeam, int> _favoriteTeamRepository;
 
     public HomeController(
-        ILogger<HomeController> logger,
         IRepository<League, int> leagueRepository,
-        IRepository<Team, int> teamRepository,
-        IRepository<Match, int> matchRepository,
-        IRepository<TeamSeasonStats, int> teamSeasonStatsRepository,
         IRepository<Season, int> seasonRepository,
         IRepository<FavoriteTeam, int> favoriteTeamRepository
         )
     {
-        _logger = logger;
         _leagueRepository = leagueRepository;
-        _teamRepository = teamRepository;
-        _matchRepository = matchRepository;
-        _teamSeasonStatsRepository = teamSeasonStatsRepository;
         _seasonRepository = seasonRepository;
         _favoriteTeamRepository = favoriteTeamRepository;
     }
@@ -41,15 +31,14 @@ public class HomeController : Controller
     {
         var ret = new List<LeagueViewModel>();
 
-        var allLeagues = await _leagueRepository.GetAllAsync();
-        var allSeasons = await _seasonRepository.GetAllAsync();
+        var allLeaguesWithSeasons = await _leagueRepository.GetQuery(q => q.Include(l => l.Seasons)).ToListAsync();
 
-        foreach (var league in allLeagues)
+        foreach (var league in allLeaguesWithSeasons)
         {
             ret.Add(new LeagueViewModel
             {
                 League = league,
-                Seasons = allSeasons.Where(item => item.LeagueId == league.Id),
+                Seasons = league.Seasons,
             });
         }
 
@@ -61,30 +50,30 @@ public class HomeController : Controller
         var ret = new List<TeamTableViewModel>();
         var favoriteTeams = new List<FavoriteTeam>();
 
-        var season = await _seasonRepository.GetByIdAsync(seasonId);
-        var league = await _leagueRepository.GetByIdAsync(season.LeagueId);
-        var allTeams = await _teamRepository.GetAllAsync();
-        var teamsSeasonStats = await _teamSeasonStatsRepository.GetWhereAsync(item => item.SeasonId == seasonId);   
-        var availableTeams = allTeams.Where(item => teamsSeasonStats.Any(stats => stats.TeamId == item.Id));
-        var availableMatches = await _matchRepository.GetWhereAsync(item => item.SeasonId == seasonId);
+        var season = await _seasonRepository.GetQuery(q => q.Where(s => s.Id == seasonId)
+            .Include(s => s.League).Include(s => s.Matches).Include(s => s.TeamsSeasonStats).ThenInclude(t => t.Team))
+            .SingleAsync();
+
+        var leagueSeasonTeams = season.TeamsSeasonStats.Select(stats => stats.Team).ToList();
 
         var isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
         if (isAuthenticated)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             favoriteTeams = (await _favoriteTeamRepository.GetWhereAsync(item => item.UserId == userId)).ToList();
         }
         
-        foreach (var team in availableTeams)
+        foreach (var teamSeasonStats in season.TeamsSeasonStats)
         {
             var matches = new List<MatchViewModel>();
+            var teamId = teamSeasonStats.TeamId;
 
-            foreach (var match in availableMatches.Where(item => item.HomeTeamId == team.Id || item.AwayTeamId == team.Id))
+            foreach (var match in season.Matches.Where(item => item.HomeTeamId == teamId || item.AwayTeamId == teamId))
             {
                 matches.Add(new MatchViewModel
                 {
-                    HomeTeamName = availableTeams.Single(item => item.Id == match.HomeTeamId).Name,
-                    AwayTeamName = availableTeams.Single(item => item.Id == match.AwayTeamId).Name,
+                    HomeTeamName = leagueSeasonTeams.Single(item => item.Id == match.HomeTeamId).Name,
+                    AwayTeamName = leagueSeasonTeams.Single(item => item.Id == match.AwayTeamId).Name,
                     HomeTeamGoals = match.HomeTeamGoals,
                     AwayTeamGoals = match.AwayTeamGoals,
                     Date = match.Date,
@@ -95,23 +84,24 @@ public class HomeController : Controller
 
             ret.Add(new TeamTableViewModel
             {
-                Team = team,
-                Favorite = favoriteTeams.FirstOrDefault(item => item.TeamId == team.Id) != null,
-                TeamSeasonStats = teamsSeasonStats.Single(item => item.TeamId == team.Id),
+                Team = teamSeasonStats.Team,
+                Favorite = favoriteTeams.FirstOrDefault(item => item.TeamId == teamSeasonStats.TeamId) != null,
+                TeamSeasonStats = teamSeasonStats,
                 Matches = matches
             });
         }
 
-        ViewBag.LeagueName = league.Name;
+        ViewBag.LeagueName = season.League.Name;
         ViewBag.SeasonName = season.Name;
 
         return View(ret);
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddOrRemoveFavoriteTeam(int teamId, bool isFavorite)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         if (isFavorite)
         {
@@ -132,41 +122,57 @@ public class HomeController : Controller
         return Ok();
     }
 
+    [Authorize]
     public async Task<IActionResult> GetFavoriteTeams()
     {
         var ret = new List<TeamTableViewModel>();
 
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var allSeasons = await _seasonRepository.GetAllAsync();
-        var allTeams = await _teamRepository.GetAllAsync();
-        var allTeamsSeasonStats = await _teamSeasonStatsRepository.GetAllAsync();
-        var allMatches = await _matchRepository.GetAllAsync();
-        var favoriteTeamsRelations = await _favoriteTeamRepository.GetWhereAsync(item => item.UserId == userId);
-        var favoriteTeams = allTeams.Where(item => favoriteTeamsRelations.Any(rel => rel.TeamId == item.Id));
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-        foreach (var team in favoriteTeams)
+        var favoriteTeams = await _favoriteTeamRepository.GetQuery(q => q.Where(item => item.UserId == userId)
+            .Include(r => r.Team)
+                .ThenInclude(t => t.TeamSeasonsStats)
+                    .ThenInclude(ts => ts.Season)
+                        .ThenInclude(s => s.Matches)
+                            .ThenInclude(m => m.HomeTeam)
+            .Include(r => r.Team)
+                .ThenInclude(t => t.TeamSeasonsStats)
+                    .ThenInclude(ts => ts.Season)
+                        .ThenInclude(s => s.Matches)
+                            .ThenInclude(m => m.AwayTeam))
+            .ToListAsync();
+
+        foreach (var favoriteTeam in favoriteTeams)
         {
             var matches = new List<MatchViewModel>();
+            var teamMatches = new List<Match>();
+            var teamSeasons = new List<Season>();
 
-            foreach (var match in allMatches.Where(item => item.HomeTeamId == team.Id || item.AwayTeamId == team.Id))
+            foreach (var item in favoriteTeam.Team.TeamSeasonsStats)
             {
-                var season = allSeasons.Single(item => item.Id == match.SeasonId);
+                teamSeasons.Add(item.Season);
+                teamMatches.AddRange(item.Season.Matches.Where(m =>
+                    m.HomeTeamId == favoriteTeam.TeamId || m.AwayTeamId == favoriteTeam.TeamId));
+            }
+            
+            foreach (var match in teamMatches)
+            {
                 matches.Add(new MatchViewModel
                 {
-                    HomeTeamName = allTeams.Single(item => item.Id == match.HomeTeamId).Name,
-                    AwayTeamName = allTeams.Single(item => item.Id == match.AwayTeamId).Name,
+                    HomeTeamName = match.HomeTeam.Name,
+                    AwayTeamName = match.AwayTeam.Name,
                     HomeTeamGoals = match.HomeTeamGoals,
                     AwayTeamGoals = match.AwayTeamGoals,
                     Date = match.Date,
                     Queue = match.Queue,
-                    SeasonName = season.Name
+                    SeasonName = teamSeasons.Single(ts => ts.Id == match.SeasonId).Name
                 });
             }
 
             ret.Add(new TeamTableViewModel
             {
-                Team = team,
-                Favorite = favoriteTeamsRelations.FirstOrDefault(item => item.TeamId == team.Id) != null,
+                Team = favoriteTeam.Team,
+                Favorite = favoriteTeams.FirstOrDefault(item => item.TeamId == favoriteTeam.TeamId) != null,
                 Matches = matches
             });
         }

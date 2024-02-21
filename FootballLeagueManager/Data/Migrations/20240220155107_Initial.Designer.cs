@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootballLeagueManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240219123644_Initial")]
+    [Migration("20240220155107_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -41,6 +41,8 @@ namespace FootballLeagueManager.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("FavoriteTeams");
                 });
@@ -116,6 +118,12 @@ namespace FootballLeagueManager.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AwayTeamId");
+
+                    b.HasIndex("HomeTeamId");
+
+                    b.HasIndex("SeasonId");
 
                     b.ToTable("Matches");
 
@@ -400,7 +408,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 26,
                             AwayTeamGoals = 1,
                             AwayTeamId = 22,
-                            Date = new DateTime(2022, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 2,
                             HomeTeamId = 21,
                             Queue = 1,
@@ -411,7 +419,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 27,
                             AwayTeamGoals = 3,
                             AwayTeamId = 21,
-                            Date = new DateTime(2022, 5, 22, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 5, 22, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 1,
                             HomeTeamId = 23,
                             Queue = 1,
@@ -422,7 +430,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 28,
                             AwayTeamGoals = 0,
                             AwayTeamId = 23,
-                            Date = new DateTime(2022, 4, 22, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 4, 22, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 1,
                             HomeTeamId = 22,
                             Queue = 1,
@@ -433,7 +441,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 29,
                             AwayTeamGoals = 3,
                             AwayTeamId = 22,
-                            Date = new DateTime(2022, 5, 22, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 5, 22, 19, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 1,
                             HomeTeamId = 24,
                             Queue = 1,
@@ -444,7 +452,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 30,
                             AwayTeamGoals = 1,
                             AwayTeamId = 24,
-                            Date = new DateTime(2022, 6, 22, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 6, 22, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 3,
                             HomeTeamId = 23,
                             Queue = 1,
@@ -455,7 +463,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 31,
                             AwayTeamGoals = 2,
                             AwayTeamId = 23,
-                            Date = new DateTime(2022, 5, 23, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 5, 23, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 5,
                             HomeTeamId = 25,
                             Queue = 2,
@@ -466,7 +474,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 32,
                             AwayTeamGoals = 0,
                             AwayTeamId = 26,
-                            Date = new DateTime(2022, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 2,
                             HomeTeamId = 25,
                             Queue = 1,
@@ -477,7 +485,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 33,
                             AwayTeamGoals = 0,
                             AwayTeamId = 25,
-                            Date = new DateTime(2022, 5, 11, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 5, 11, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 2,
                             HomeTeamId = 24,
                             Queue = 1,
@@ -488,7 +496,7 @@ namespace FootballLeagueManager.Data.Migrations
                             Id = 34,
                             AwayTeamGoals = 3,
                             AwayTeamId = 26,
-                            Date = new DateTime(2022, 11, 11, 18, 15, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2023, 11, 11, 18, 15, 0, 0, DateTimeKind.Unspecified),
                             HomeTeamGoals = 1,
                             HomeTeamId = 27,
                             Queue = 1,
@@ -518,6 +526,8 @@ namespace FootballLeagueManager.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LeagueId");
 
                     b.ToTable("Seasons");
 
@@ -771,6 +781,10 @@ namespace FootballLeagueManager.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SeasonId");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("TeamSeasonsStats");
 
@@ -1342,6 +1356,72 @@ namespace FootballLeagueManager.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.FavoriteTeam", b =>
+                {
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Match", b =>
+                {
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.Team", "AwayTeam")
+                        .WithMany()
+                        .HasForeignKey("AwayTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.Team", "HomeTeam")
+                        .WithMany()
+                        .HasForeignKey("HomeTeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.Season", null)
+                        .WithMany("Matches")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AwayTeam");
+
+                    b.Navigation("HomeTeam");
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Season", b =>
+                {
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.League", "League")
+                        .WithMany("Seasons")
+                        .HasForeignKey("LeagueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("League");
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.TeamSeasonStats", b =>
+                {
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.Season", "Season")
+                        .WithMany("TeamsSeasonStats")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FootballLeagueManager.Models.Entities.Main.Team", "Team")
+                        .WithMany("TeamSeasonsStats")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Season");
+
+                    b.Navigation("Team");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1391,6 +1471,23 @@ namespace FootballLeagueManager.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.League", b =>
+                {
+                    b.Navigation("Seasons");
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Season", b =>
+                {
+                    b.Navigation("Matches");
+
+                    b.Navigation("TeamsSeasonStats");
+                });
+
+            modelBuilder.Entity("FootballLeagueManager.Models.Entities.Main.Team", b =>
+                {
+                    b.Navigation("TeamSeasonsStats");
                 });
 #pragma warning restore 612, 618
         }

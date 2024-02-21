@@ -33,6 +33,17 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Match>()
+            .HasOne(m => m.HomeTeam)
+            .WithMany()
+            .HasForeignKey(m => m.HomeTeamId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Match>()
+            .HasOne(m => m.AwayTeam)
+            .WithMany()
+            .HasForeignKey(m => m.AwayTeamId);
+
         if (!base.Database.GetAppliedMigrations().Any() && _seeders != null)
             foreach (var seeder in _seeders)
                 seeder.Seed(modelBuilder);

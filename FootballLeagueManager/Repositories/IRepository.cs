@@ -37,4 +37,6 @@ public interface IRepository<TEntity, TPrimaryKey> : IPerWebRequestDependency
     public void Delete(TEntity entity);
 
     public Task DeleteAsync(TEntity entity);
+
+    public IQueryable<TEntity> GetQuery(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder);
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -14,20 +13,6 @@ namespace FootballLeagueManager.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "FavoriteTeams",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FavoriteTeams", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Leagues",
                 columns: table => new
                 {
@@ -39,6 +24,62 @@ namespace FootballLeagueManager.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Leagues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seasons",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LeagueId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seasons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Seasons_Leagues_LeagueId",
+                        column: x => x.LeagueId,
+                        principalTable: "Leagues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavoriteTeams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteTeams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoriteTeams_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,36 +99,24 @@ namespace FootballLeagueManager.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Matches", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Seasons",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LeagueId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Seasons", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teams",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Matches_Seasons_SeasonId",
+                        column: x => x.SeasonId,
+                        principalTable: "Seasons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Matches_Teams_AwayTeamId",
+                        column: x => x.AwayTeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Matches_Teams_HomeTeamId",
+                        column: x => x.HomeTeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,6 +136,18 @@ namespace FootballLeagueManager.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TeamSeasonsStats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeamSeasonsStats_Seasons_SeasonId",
+                        column: x => x.SeasonId,
+                        principalTable: "Seasons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TeamSeasonsStats_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -117,6 +158,51 @@ namespace FootballLeagueManager.Data.Migrations
                     { 1, "https://assets.skor.id/crop/0x0:0x0/x/photo/2020/04/02/574196038.jpg", "Jupiler League" },
                     { 2, "https://statics-maker.llt-services.com/prl/images/2023/09/28/xlarge/deac0d81-f6a8-41ed-bdd8-794da335dd68.png", "Challenger Pro League" },
                     { 3, "https://static.vecteezy.com/system/resources/previews/010/994/451/non_2x/premier-league-logo-symbol-with-name-design-england-football-european-countries-football-teams-illustration-with-purple-background-free-vector.jpg", "Premier League" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Teams",
+                columns: new[] { "Id", "Country", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Belgia", "Genk" },
+                    { 2, "Belgia", "Royale Union SG" },
+                    { 3, "Belgia", "Antwerp" },
+                    { 4, "Belgia", "Club Brugge" },
+                    { 5, "Belgia", "Gent" },
+                    { 6, "Belgia", "St. Liege" },
+                    { 7, "Belgia", "Westerlo" },
+                    { 8, "Belgia", "Cercle Brugge" },
+                    { 9, "Belgia", "Charleroi" },
+                    { 10, "Belgia", "Leuven" },
+                    { 11, "Belgia", "Anderlecht" },
+                    { 12, "Belgia", "St. Truiden" },
+                    { 13, "Belgia", "KV Mechelen" },
+                    { 14, "Belgia", "Kortrijk" },
+                    { 15, "Belgia", "Eupen" },
+                    { 16, "Belgia", "Oostende" },
+                    { 17, "Belgia", "Waregem" },
+                    { 18, "Belgia", "Seraing" },
+                    { 19, "Belgia", "RWDM" },
+                    { 20, "Belgia", "Beveren" },
+                    { 21, "Anglia", "Manchester City" },
+                    { 22, "Anglia", "Liverpool" },
+                    { 23, "Anglia", "Chelsea" },
+                    { 24, "Anglia", "Tottenham" },
+                    { 25, "Anglia", "Arsenal" },
+                    { 26, "Anglia", "Manchester Utd" },
+                    { 27, "Anglia", "West Ham" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Seasons",
+                columns: new[] { "Id", "EndDate", "LeagueId", "Name", "StartDate" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "2022/2023", new DateTime(2022, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2023, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "2022/2023", new DateTime(2022, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2022, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "2021/2022", new DateTime(2021, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(2023, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "2022/2023", new DateTime(2022, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -149,26 +235,15 @@ namespace FootballLeagueManager.Data.Migrations
                     { 23, 2, 23, new DateTime(2022, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 1, 25, 1, 3 },
                     { 24, 0, 26, new DateTime(2022, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 25, 2, 3 },
                     { 25, 0, 25, new DateTime(2022, 5, 11, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, 24, 1, 3 },
-                    { 26, 1, 22, new DateTime(2022, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 21, 1, 4 },
-                    { 27, 3, 21, new DateTime(2022, 5, 22, 13, 0, 0, 0, DateTimeKind.Unspecified), 1, 23, 1, 4 },
-                    { 28, 0, 23, new DateTime(2022, 4, 22, 11, 0, 0, 0, DateTimeKind.Unspecified), 1, 22, 1, 4 },
-                    { 29, 3, 22, new DateTime(2022, 5, 22, 19, 0, 0, 0, DateTimeKind.Unspecified), 1, 24, 1, 4 },
-                    { 30, 1, 24, new DateTime(2022, 6, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, 23, 1, 4 },
-                    { 31, 2, 23, new DateTime(2022, 5, 23, 17, 0, 0, 0, DateTimeKind.Unspecified), 5, 25, 2, 4 },
-                    { 32, 0, 26, new DateTime(2022, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 25, 1, 4 },
-                    { 33, 0, 25, new DateTime(2022, 5, 11, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 24, 1, 4 },
-                    { 34, 3, 26, new DateTime(2022, 11, 11, 18, 15, 0, 0, DateTimeKind.Unspecified), 1, 27, 1, 4 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Seasons",
-                columns: new[] { "Id", "EndDate", "LeagueId", "Name", "StartDate" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2023, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "2022/2023", new DateTime(2022, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(2023, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "2022/2023", new DateTime(2022, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(2022, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "2021/2022", new DateTime(2021, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, new DateTime(2023, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "2022/2023", new DateTime(2022, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 26, 1, 22, new DateTime(2023, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 21, 1, 4 },
+                    { 27, 3, 21, new DateTime(2023, 5, 22, 13, 0, 0, 0, DateTimeKind.Unspecified), 1, 23, 1, 4 },
+                    { 28, 0, 23, new DateTime(2023, 4, 22, 11, 0, 0, 0, DateTimeKind.Unspecified), 1, 22, 1, 4 },
+                    { 29, 3, 22, new DateTime(2023, 5, 22, 19, 0, 0, 0, DateTimeKind.Unspecified), 1, 24, 1, 4 },
+                    { 30, 1, 24, new DateTime(2023, 6, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 3, 23, 1, 4 },
+                    { 31, 2, 23, new DateTime(2023, 5, 23, 17, 0, 0, 0, DateTimeKind.Unspecified), 5, 25, 2, 4 },
+                    { 32, 0, 26, new DateTime(2023, 5, 22, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 25, 1, 4 },
+                    { 33, 0, 25, new DateTime(2023, 5, 11, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, 24, 1, 4 },
+                    { 34, 3, 26, new DateTime(2023, 11, 11, 18, 15, 0, 0, DateTimeKind.Unspecified), 1, 27, 1, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -211,39 +286,40 @@ namespace FootballLeagueManager.Data.Migrations
                     { 33, 7, 20, 38, 40, 4, 27, 11 }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Teams",
-                columns: new[] { "Id", "Country", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Belgia", "Genk" },
-                    { 2, "Belgia", "Royale Union SG" },
-                    { 3, "Belgia", "Antwerp" },
-                    { 4, "Belgia", "Club Brugge" },
-                    { 5, "Belgia", "Gent" },
-                    { 6, "Belgia", "St. Liege" },
-                    { 7, "Belgia", "Westerlo" },
-                    { 8, "Belgia", "Cercle Brugge" },
-                    { 9, "Belgia", "Charleroi" },
-                    { 10, "Belgia", "Leuven" },
-                    { 11, "Belgia", "Anderlecht" },
-                    { 12, "Belgia", "St. Truiden" },
-                    { 13, "Belgia", "KV Mechelen" },
-                    { 14, "Belgia", "Kortrijk" },
-                    { 15, "Belgia", "Eupen" },
-                    { 16, "Belgia", "Oostende" },
-                    { 17, "Belgia", "Waregem" },
-                    { 18, "Belgia", "Seraing" },
-                    { 19, "Belgia", "RWDM" },
-                    { 20, "Belgia", "Beveren" },
-                    { 21, "Anglia", "Manchester City" },
-                    { 22, "Anglia", "Liverpool" },
-                    { 23, "Anglia", "Chelsea" },
-                    { 24, "Anglia", "Tottenham" },
-                    { 25, "Anglia", "Arsenal" },
-                    { 26, "Anglia", "Manchester Utd" },
-                    { 27, "Anglia", "West Ham" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteTeams_TeamId",
+                table: "FavoriteTeams",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_AwayTeamId",
+                table: "Matches",
+                column: "AwayTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_HomeTeamId",
+                table: "Matches",
+                column: "HomeTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_SeasonId",
+                table: "Matches",
+                column: "SeasonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seasons_LeagueId",
+                table: "Seasons",
+                column: "LeagueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamSeasonsStats_SeasonId",
+                table: "TeamSeasonsStats",
+                column: "SeasonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamSeasonsStats_TeamId",
+                table: "TeamSeasonsStats",
+                column: "TeamId");
         }
 
         /// <inheritdoc />
@@ -253,10 +329,10 @@ namespace FootballLeagueManager.Data.Migrations
                 name: "FavoriteTeams");
 
             migrationBuilder.DropTable(
-                name: "Leagues");
+                name: "Matches");
 
             migrationBuilder.DropTable(
-                name: "Matches");
+                name: "TeamSeasonsStats");
 
             migrationBuilder.DropTable(
                 name: "Seasons");
@@ -265,7 +341,7 @@ namespace FootballLeagueManager.Data.Migrations
                 name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "TeamSeasonsStats");
+                name: "Leagues");
         }
     }
 }

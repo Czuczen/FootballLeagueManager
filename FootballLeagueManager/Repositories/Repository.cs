@@ -121,4 +121,10 @@ public class Repository<TEntity, TPrimaryKey> :
             _ctx.Set<TEntity>().Remove(entity);
             await _ctx.SaveChangesAsync();
     }
+
+    public IQueryable<TEntity> GetQuery(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryBuilder)
+    {
+        var query = _ctx.Set<TEntity>().AsQueryable();
+        return queryBuilder(query);
+    }
 }

@@ -1,10 +1,4 @@
-﻿body {
-    /* Raftel Design - Hexagon-background.jpg - <a href="https://www.vecteezy.com/free-vector/background">Background Vectors by Vecteezy</a>  */
-    background-image: url("../Content/Hexagon-background.jpg");
-    background-size: cover;
-}
-
-.image-flip:hover .backside,
+﻿.image-flip:hover .backside,
 .image-flip.hover .backside {
     -webkit-transform: rotateY(0deg);
     -moz-transform: rotateY(0deg);
