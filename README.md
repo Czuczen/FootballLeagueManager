@@ -1,4 +1,4 @@
-# Football league manager
+# Football League Manager
   
   
 ## Jak uruchomić aplikację
