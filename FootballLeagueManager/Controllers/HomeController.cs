@@ -45,15 +45,16 @@ public class HomeController : Controller
         return View(ret);
     }
 
-    public async Task<IActionResult> LeagueTable(int seasonId)
+    [HttpGet("LeagueTable/{id}")]
+    public async Task<IActionResult> LeagueTable(int id)
     {
         var ret = new List<TeamTableViewModel>();
         var favoriteTeams = new List<FavoriteTeam>();
 
-        var season = await _seasonRepository.GetQuery(q => q.Where(s => s.Id == seasonId)
+        var season = await _seasonRepository.GetQuery(q => q.Where(s => s.Id == id)
             .Include(s => s.League).Include(s => s.Matches).Include(s => s.TeamsSeasonStats).ThenInclude(t => t.Team))
             .SingleAsync();
-
+         
         var leagueSeasonTeams = season.TeamsSeasonStats.Select(stats => stats.Team).ToList();
 
         var isAuthenticated = User?.Identity?.IsAuthenticated ?? false;

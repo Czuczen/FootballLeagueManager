@@ -10,6 +10,13 @@ $('.feature.col-xs-12.col-md-3.col-sm-6').each(function () {
     if (height > parseInt(thisHeight)) {
         $this.css('height', height + 'px');
     }
+
+    // chowanie select sezonów na kartach backside
+    $(".mainflip", $this).mouseenter(function () {
+        $('[id^="season-"]', $this).show();
+    }).mouseleave(function () {
+        $('[id^="season-"]', $this).hide();
+    });
 });
 
 $("a.feature").click(function () {
@@ -17,5 +24,5 @@ $("a.feature").click(function () {
     const leagueId = $this.attr("id").substring($this.attr("id").indexOf("-") + 1);
     const seasonId = $("#season-" + leagueId).val();
     
-    window.location.href = window.location.pathname + "Home/LeagueTable?seasonId=" + seasonId;
+    window.location.href = window.location.pathname + "LeagueTable/" + seasonId;
 });
